@@ -21,7 +21,7 @@ abstract class BaseContentPage extends Page implements HasForms
 
     public function mount(): void
     {
-        $this->form->fill($this->fetchContent());
+        $this->form->fill($this->prepareFormData($this->fetchContent()));
     }
 
     public function form(Form $form): Form
@@ -33,7 +33,7 @@ abstract class BaseContentPage extends Page implements HasForms
 
     public function save(): void
     {
-        $payload = $this->form->getState();
+        $payload = $this->transformPayload($this->form->getState());
         $url = $this->getContentUrl(static::$contentFile);
         $token = $this->getAdminToken();
 
@@ -72,6 +72,16 @@ abstract class BaseContentPage extends Page implements HasForms
     protected function contentFormSchema(): array
     {
         return [];
+    }
+
+    protected function prepareFormData(array $data): array
+    {
+        return $data;
+    }
+
+    protected function transformPayload(array $payload): array
+    {
+        return $payload;
     }
 
     protected function fetchContent(): array

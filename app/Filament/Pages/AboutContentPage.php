@@ -18,6 +18,8 @@ class AboutContentPage extends BaseContentPage
 
     protected static ?string $slug = 'content/about';
 
+    protected static ?int $navigationSort = 20;
+
     protected static string $contentFile = 'about';
 
     protected function contentFormSchema(): array
