@@ -15,6 +15,7 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\HtmlString;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 
@@ -28,6 +29,10 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->passwordReset()
+            ->brandLogo(fn () => new HtmlString(view('components.filament-brand')->render()))
+            ->brandLogoHeight('auto')
+            ->brandName(config('app.name'))
+            ->favicon(asset('icon.svg'))
             ->colors([
                 'primary' => '#2BA254',
             ])
