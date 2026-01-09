@@ -1,0 +1,26 @@
+{
+    "config": {
+        "verbosity": "normal",
+        "fail-on-first-error": true,
+        "ansi-colors": true,
+        "git-directory": ".git",
+        "bootstrap": "vendor/autoload.php"
+    },
+    "pre-commit": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "composer lint",
+                "config": {
+                    "label": "Lint (PHP + JS)"
+                }
+            },
+            {
+                "action": "composer format:check",
+                "config": {
+                    "label": "Format check (PHP + assets)"
+                }
+            }
+        ]
+    }
+}
