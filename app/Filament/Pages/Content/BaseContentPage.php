@@ -28,11 +28,22 @@ abstract class BaseContentPage extends Page implements HasForms
     {
         return $form
             ->schema($this->contentFormSchema())
+            ->disabled($this->isReadOnly())
             ->statePath('data');
     }
 
     public function save(): void
     {
+        if ($this->isReadOnly()) {
+            Notification::make()
+                ->warning()
+                ->title('Read-only access')
+                ->body('You do not have permission to edit content.')
+                ->send();
+
+            return;
+        }
+
         $payload = $this->transformPayload($this->form->getState());
         $url = $this->getContentUrl(static::$contentFile);
         $token = $this->getAdminToken();
@@ -67,6 +78,11 @@ abstract class BaseContentPage extends Page implements HasForms
             ->title('Saved')
             ->body('Content updated successfully.')
             ->send();
+    }
+
+    public function canEdit(): bool
+    {
+        return auth()->user()?->canEditContent() ?? false;
     }
 
     protected function contentFormSchema(): array
@@ -128,5 +144,10 @@ abstract class BaseContentPage extends Page implements HasForms
         $token = config('portfolio.admin_token');
 
         return $token !== '' ? $token : null;
+    }
+
+    protected function isReadOnly(): bool
+    {
+        return ! $this->canEdit();
     }
 }

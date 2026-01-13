@@ -35,6 +35,16 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function isAdmin(): bool
+    {
+        return true;
+    }
+
+    public function canEditContent(): bool
+    {
+        return true;
+    }
+
     /**
      * Get the attributes that should be cast.
      *
