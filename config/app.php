@@ -1,5 +1,12 @@
 <?php
 
+$assetUrl = env('ASSET_URL');
+$pathPrefix = trim((string) env('APP_PATH_PREFIX', ''), '/');
+
+if ($pathPrefix !== '' && ($assetUrl === null || $assetUrl === '' || $assetUrl === '/')) {
+    $assetUrl = '/' . $pathPrefix;
+}
+
 return [
 
     /*
@@ -53,6 +60,8 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+
+    'asset_url' => $assetUrl,
 
     /*
     |--------------------------------------------------------------------------
