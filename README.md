@@ -2,7 +2,7 @@
 
 # Portfolio Dashboard
 
-A Filament-powered dashboard for editing [Portfolio](https://github.com/alwoodm/portolio) content.
+A Filament-powered dashboard for editing [Portfolio](https://github.com/alwoodm/portfolio) content.
 
 ![App Screenshot](docs/screenshot.png)
 
@@ -23,7 +23,7 @@ A Filament-powered dashboard for editing [Portfolio](https://github.com/alwoodm/
 </div>
 
 ## 📌 Overview
-Portfolio Dashboard is a small admin panel built to update the [portfolio](https://github.com/alwoodm/portolio) site without touching source files. It reads content from the [portfolio](https://github.com/alwoodm/portolio) JSON endpoints, presents structured editors for each section, and posts updates back through a secured API token. Viewer mode provides read-only access for sharing the dashboard without exposing write permissions.
+Portfolio Dashboard is a small admin panel built to update the [portfolio](https://github.com/alwoodm/portfolio) site without touching source files. It reads content from the [portfolio](https://github.com/alwoodm/portfolio) JSON endpoints, presents structured editors for each section, and posts updates back through a secured API token. Viewer mode provides read-only access for sharing the dashboard without exposing write permissions.
 
 ## 🛠️ Local Setup
 1. Clone the repository and enter the directory:
@@ -58,6 +58,31 @@ Portfolio Dashboard is a small admin panel built to update the [portfolio](https
    ```bash
    composer run dev
    ```
+
+## 🚀 Production (Docker)
+1. Create a production `.env` with real values:
+   ```bash
+   cp .env.example .env
+   APP_ENV=production
+   APP_DEBUG=false
+   APP_URL=https://dashboard.example.com
+   APP_KEY=base64:your-generated-key
+   DB_CONNECTION=sqlite
+   SESSION_DRIVER=database
+   CACHE_STORE=database
+   PORTFOLIO_URL=https://portfolio.example.com
+   PORTFOLIO_ADMIN_TOKEN=your-token
+   PORTFOLIO_CONTENT_PREFIX=/api/content
+   ```
+   Generate the key locally with:
+   ```bash
+   php artisan key:generate --show
+   ```
+2. Build and run the container:
+   ```bash
+   docker-compose up --build
+   ```
+   The container creates the SQLite database, runs migrations, builds assets, and starts the app.
 
 ## ⚙️ Development Commands
 ```bash
