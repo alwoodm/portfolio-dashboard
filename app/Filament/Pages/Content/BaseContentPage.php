@@ -2,6 +2,8 @@
 
 namespace App\Filament\Pages\Content;
 
+use App\Models\ActivityLog;
+use App\Support\ViewerUser;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
@@ -78,6 +80,8 @@ abstract class BaseContentPage extends Page implements HasForms
             ->title('Saved')
             ->body('Content updated successfully.')
             ->send();
+
+        $this->logActivity('updated');
     }
 
     public function canEdit(): bool
@@ -149,5 +153,20 @@ abstract class BaseContentPage extends Page implements HasForms
     protected function isReadOnly(): bool
     {
         return ! $this->canEdit();
+    }
+
+    /**
+     * Log activity when content is saved.
+     */
+    protected function logActivity(string $action = 'updated'): void
+    {
+        $user = auth()->user();
+
+        ActivityLog::create([
+            'user_id' => $user?->id,
+            'content_page' => static::$contentFile,
+            'action' => $action,
+            'is_viewer' => $user instanceof ViewerUser,
+        ]);
     }
 }
