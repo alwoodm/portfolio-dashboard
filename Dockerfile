@@ -11,10 +11,10 @@ COPY package.json package-lock.json ./
 RUN npm ci
 COPY resources/ resources/
 COPY public/ public/
-COPY vite.config.js tailwind.config.js postcss.config.js ./
+COPY vite.config.js ./
 RUN npm run build
 
-FROM php:8.3-cli AS app
+FROM php:8.3.36-cli AS app
 WORKDIR /var/www/html
 RUN apt-get update \
     && apt-get install -y --no-install-recommends git unzip libzip-dev libicu-dev libsqlite3-dev pkg-config \
